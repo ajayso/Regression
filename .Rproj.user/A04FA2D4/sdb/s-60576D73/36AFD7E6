@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\nlibrary(Quandl)\nlibrary(devtools)\nlibrary(TTR)\nlibrary(plotly)\nlibrary(clusterSim)\nlibrary(lubridate)\n\n\n\n#API Key for Quandl\nQuandl.api_key(\"Td2oA_m_SYUdi1X9Htdi\")\n\ngoldpricesAllUp =  Quandl(\"LBMA/GOLD\", type = \"raw\", collapse=\"monthly\")\noilprices =    Quandl(\"OPEC/ORB\", type = \"raw\", collapse=\"monthly\")\n# Merge oil and gold datasets\nsetOne = merge(goldpricesAllUp, oilprices, by=\"Date\")\nsetOne= setOne[complete.cases(setOne), ]\n\n#Filter the data frame to last 3 years only \nsetOne <- setOne[(year(setOne$Date) >= 2010)  , ]\n\ndataSize = dim(setOne)[1]\ntraindata = setOne[1:round(0.8*dataSize),]\nstarttestfrom = round(0.8*dataSize) +1\ntestdata = setOne[starttestfrom:dataSize,]\n\np <- plot_ly(setOne, x = setOne$`USD (AM)`, y = setOne$Value, type = 'scatter', mode = 'lines')%>%\nlayout(title = \"Oil vs Gold Prices\",  xaxis = list(title = \"Gold Price\"), yaxis = list (title = \"Oil Price\"))\n\noilmodel = lm(Value~`USD (PM)`, traindata)\nabline(oilmodel)\npaste('y =', coef(oilmodel)[[2]], '* x', '+', coef(oilmodel)[[1]])\nlmPred = predict(oilmodel, testdata)\n\n\nactuals_preds <- data.frame(cbind(actuals=testdata$Value, predicteds=lmPred))  # make actuals_predicteds dataframe.\ncorrelation_accuracy <- cor(actuals_preds)  # 82.7%\ncorrelation_accuracy\n\n# NLS\nx <- traindata$`USD (AM)`\ny <- traindata$Value\n\nnformula = as.formula(y~a+b1*x+b2*z+b3*w)\nlibrary(nlstools)\nz=traindata$`USD (AM)`^2\nw= traindata$`USD (AM)`^3\nxm<-nls(nformula,start=list(a=945,b1=-2.11,b2=-92.33,b3=-9.16))\noverview(xm)\na<-coef(xm)[1]\nb1<-coef(xm)[2]\nb2<-coef(xm)[3]\nb3<-coef(xm)[4]\nplot(y~x)\n\nlines(x,a+b1*x+b2*z+b3*w,col='green')\n",
+    "created" : 1526729271809.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1225529663",
+    "id" : "36AFD7E6",
+    "lastKnownWriteTime" : 1526907406,
+    "last_content_update" : 1526907406852,
+    "path" : "C:/happyarena/learning series/Regression Analysis/GoldVsOil.R",
+    "project_path" : "GoldVsOil.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

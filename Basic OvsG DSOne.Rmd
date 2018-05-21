@@ -1,0 +1,77 @@
+---
+title: "Oil Vs Gold Relationship Understanding..."
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(Quandl)
+library(plotly)
+
+
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Oil to Gold Relationship
+
+```{r}
+Quandl.api_key("Td2oA_m_SYUdi1X9Htdi")
+
+goldpricesAllUp =  Quandl("LBMA/GOLD", type = "raw", collapse="daily")
+oilprices =    Quandl("OPEC/ORB", type = "raw", collapse="daily")
+# Merge oil and gold datasets
+setOne = merge(goldpricesAllUp, oilprices, by="Date")
+dataSize = dim(setOne)[1]
+traindata = setOne[1:round(0.8*dataSize),]
+starttestfrom = round(0.8*dataSize) +1
+testdata = setOne[starttestfrom:dataSize,]
+p <- plot_ly(setOne, x = setOne$`USD (AM)`, y = setOne$Value, type = 'scatter', mode = 'lines')%>%
+layout(title = "Oil vs Gold Prices",  xaxis = list(title = "Gold Price"), yaxis = list (title = "Oil Price"))
+p
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Oil Prices in Time
+
+```{r}
+Quandl.api_key("Td2oA_m_SYUdi1X9Htdi")
+
+goldpricesAllUp =  Quandl("LBMA/GOLD", type = "raw", collapse="daily")
+oilprices =    Quandl("OPEC/ORB", type = "raw", collapse="daily")
+# Merge oil and gold datasets
+setOne = merge(goldpricesAllUp, oilprices, by="Date")
+dataSize = dim(setOne)[1]
+traindata = setOne[1:round(0.8*dataSize),]
+starttestfrom = round(0.8*dataSize) +1
+testdata = setOne[starttestfrom:dataSize,]
+p <- plot_ly(setOne, x = setOne$Date, y = setOne$Value, type = 'scatter', mode = 'lines')%>%
+layout(title = "Oil Prices",  xaxis = list(title = "Date"), yaxis = list (title = "Oil Price"))
+p
+```
+
+### Gold Price in Time
+
+```{r}
+Quandl.api_key("Td2oA_m_SYUdi1X9Htdi")
+
+goldpricesAllUp =  Quandl("LBMA/GOLD", type = "raw", collapse="daily")
+oilprices =    Quandl("OPEC/ORB", type = "raw", collapse="daily")
+# Merge oil and gold datasets
+setOne = merge(goldpricesAllUp, oilprices, by="Date")
+dataSize = dim(setOne)[1]
+traindata = setOne[1:round(0.8*dataSize),]
+starttestfrom = round(0.8*dataSize) +1
+testdata = setOne[starttestfrom:dataSize,]
+p <- plot_ly(setOne, x = setOne$Date, y = setOne$`USD (AM)`, type = 'scatter', mode = 'lines')%>%
+layout(title = "Gold Prices",  xaxis = list(title = "Date"), yaxis = list (title = "Gold Price"))
+p
+```
+

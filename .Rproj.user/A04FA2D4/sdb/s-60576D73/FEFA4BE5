@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Oil Vs Gold Relationship Understanding...\"\noutput: \n  flexdashboard::flex_dashboard:\n    orientation: columns\n    vertical_layout: fill\n---\n\n```{r setup, include=FALSE}\nlibrary(flexdashboard)\nlibrary(Quandl)\nlibrary(plotly)\n\n\n\n```\n\nColumn {data-width=650}\n-----------------------------------------------------------------------\n\n### Oil to Gold Relationship\n\n```{r}\nQuandl.api_key(\"Td2oA_m_SYUdi1X9Htdi\")\n\ngoldpricesAllUp =  Quandl(\"LBMA/GOLD\", type = \"raw\", collapse=\"daily\")\noilprices =    Quandl(\"OPEC/ORB\", type = \"raw\", collapse=\"daily\")\n# Merge oil and gold datasets\nsetOne = merge(goldpricesAllUp, oilprices, by=\"Date\")\ndataSize = dim(setOne)[1]\ntraindata = setOne[1:round(0.8*dataSize),]\nstarttestfrom = round(0.8*dataSize) +1\ntestdata = setOne[starttestfrom:dataSize,]\np <- plot_ly(setOne, x = setOne$`USD (AM)`, y = setOne$Value, type = 'scatter', mode = 'lines')%>%\nlayout(title = \"Oil vs Gold Prices\",  xaxis = list(title = \"Gold Price\"), yaxis = list (title = \"Oil Price\"))\np\n```\n\nColumn {data-width=350}\n-----------------------------------------------------------------------\n\n### Oil Prices in Time\n\n```{r}\nQuandl.api_key(\"Td2oA_m_SYUdi1X9Htdi\")\n\ngoldpricesAllUp =  Quandl(\"LBMA/GOLD\", type = \"raw\", collapse=\"daily\")\noilprices =    Quandl(\"OPEC/ORB\", type = \"raw\", collapse=\"daily\")\n# Merge oil and gold datasets\nsetOne = merge(goldpricesAllUp, oilprices, by=\"Date\")\ndataSize = dim(setOne)[1]\ntraindata = setOne[1:round(0.8*dataSize),]\nstarttestfrom = round(0.8*dataSize) +1\ntestdata = setOne[starttestfrom:dataSize,]\np <- plot_ly(setOne, x = setOne$Date, y = setOne$Value, type = 'scatter', mode = 'lines')%>%\nlayout(title = \"Oil Prices\",  xaxis = list(title = \"Date\"), yaxis = list (title = \"Oil Price\"))\np\n```\n\n### Gold Price in Time\n\n```{r}\nQuandl.api_key(\"Td2oA_m_SYUdi1X9Htdi\")\n\ngoldpricesAllUp =  Quandl(\"LBMA/GOLD\", type = \"raw\", collapse=\"daily\")\noilprices =    Quandl(\"OPEC/ORB\", type = \"raw\", collapse=\"daily\")\n# Merge oil and gold datasets\nsetOne = merge(goldpricesAllUp, oilprices, by=\"Date\")\ndataSize = dim(setOne)[1]\ntraindata = setOne[1:round(0.8*dataSize),]\nstarttestfrom = round(0.8*dataSize) +1\ntestdata = setOne[starttestfrom:dataSize,]\np <- plot_ly(setOne, x = setOne$Date, y = setOne$`USD (AM)`, type = 'scatter', mode = 'lines')%>%\nlayout(title = \"Gold Prices\",  xaxis = list(title = \"Date\"), yaxis = list (title = \"Gold Price\"))\np\n```\n\n",
+    "created" : 1526803783176.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2896608693",
+    "id" : "FEFA4BE5",
+    "lastKnownWriteTime" : 1526808579,
+    "last_content_update" : 1526808579685,
+    "path" : "C:/happyarena/learning series/Regression Analysis/Basic OvsG DSOne.Rmd",
+    "project_path" : "Basic OvsG DSOne.Rmd",
+    "properties" : {
+        "last_setup_crc32" : "DFB06E3E7413f575",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

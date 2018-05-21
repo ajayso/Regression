@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "install.packages(\"Quandl\")\nlibrary(Quandl)\ninstall.packages(\"devtools\")\nlibrary(devtools)\ninstall_github(\"quandl/quandl-r\")\nlibrary(TTR)\nsource('C:/start/ML-Regression-Analysis/functions.r')\n\n#API Key for Quandl\nQuandl.api_key(\"Td2oA_m_SYUdi1X9Htdi\")\n\ngoldpricesAllUp =  Quandl(\"LBMA/GOLD\")\n\n# Calculate the ROC \nroc  = goldpricesAllUp$`USD (AM)`\nyy = ROC(roc, type=\"discrete\")*100\n\n\ngpdata = data.frame(goldpricesAllUp$Date,goldpricesAllUp$`USD (AM)`,yy)\ngpdata = gpdata[gpdata$goldpricesAllUp.Date > \"2014-01-01\",]\nmodel = lm ( goldpricesAllUp..USD..AM..~., data = gpdata)\n# linear equation \npaste('y =', coef(model)[[2]], '* x', '+', coef(model)[[1]])\n\n# Calculate the Slope \nslopedata <- array(1:length(gpdata$goldpricesAllUp.Date))\nslopedata = slope(gpdata)\n\n# Calculate the Ratios\nroc_ratio = RationRoc(gpdata)\n\n# Calculate the Stochastic_Oscillator\nso_index = 14\nSOCategoric  = Stochastic_Oscillator(gpdata,so_index)\nSONumeric = Stochastic_Oscillator_Numeric(gpdata,so_index)\n\n# Try basic gaussian model in glm \n\nglmdataset = data.frame(gpdata, slopedata,roc_ratio,SONumeric)\n\n\ntrainingdataLength = 0.8 * length(glmdataset$goldpricesAllUp.Date)\ntestingdatalength = 0.2 * length(glmdataset$goldpricesAllUp.Date)\ntrain <- glmdataset[1:trainingdataLength,]\n#test <- xfinaldata[trainingdataLength:length(xfinaldata$goldpricesAllUp.Date),]\ntest <- glmdataset[trainingdataLength:length(glmdataset$goldpricesAllUp.Date),]\n\n\n# Use Gaussian distribution this will require BuySell to be numeric....\nlr_model <- glm(BuySellFlag ~ goldpricesAllUp..USD..AM..+ yy+ slopedata  + StochasticOscillator,data=train, family=gaussian  )\nanova(lr_model, test=\"Chisq\")\nlr_predict = predict(lr_model, newdata = test, type=\"response\")\n# Calulate the Accuracy of the Model\nbuysellpredicted <- array(1:length(lr_predict))\nfor (i in 1: length(lr_predict)){\n  print(i)\n  index = lr_predict[i]\n  if(index >0.5)\n    signal = 1\n  if ((index < 0.5) & (index > 0))\n    signal = 0\n  if ((index > -0.5) & (index < 0))\n    signal = \"0\"\n  \n  if ((index < -0.5) )\n    signal = -1\n  \n  buysellpredicted[i]= signal\n  \n  \n}\n# Get the accuracy of the GLM Model\nconfusion_matrix <- ftable(test$BuySellFlag, buysellpredicted)\naccuracy <- sum(diag(confusion_matrix))/152*100\n\n\n# Use multinom logistics regression considering we have more then 2 outcomes of categorical variable BuySell\nlibrary(nnet)\nmnetdataset = data.frame(gpdata, slopedata,roc_ratio,SOCategoric)\n\n#mnetdataset$BuySellFlag = as.factor(mnetdataset$BuySellFlag)\ntrainingdataLength = 0.8 * length(mnetdataset$goldpricesAllUp.Date)\ntestingdatalength = 0.2 * length(mnetdataset$goldpricesAllUp.Date)\ntrain <- mnetdataset[1:trainingdataLength,]\ntest <- mnetdataset[trainingdataLength:length(mnetdataset$goldpricesAllUp.Date),]\nmnetmodel = multinom(BuySellFlag ~ goldpricesAllUp..USD..AM..+ yy+ slopedata  + StochasticOscillator,data=train)\nsummary(mnetmodel)\nmnetmodel_predict = predict(mnetmodel, type=\"probs\", data.frame(test))\n\n\nxx  = data.frame(mnetmodel_predict)\nfor (i in 1: length(mnetmodel_predict)){\n  print(i)\n  index = which.max(mnetmodel_predict[i,])\n  if(index ==1)\n    signal = \"Buy\"\n  if(index ==2)\n    signal = \"Hold\"\n  if(index ==3)\n    signal = \"Sell\"\n  mnetmodel_predict[i,]= signal\n  xx[i,]= signal\n  \n}\n# Get the accuracy of the Multinom Model\nm_confusion_matrix <- ftable(test$BuySellFlag, xx$Buy)\nm_accuracy <- sum(diag(m_confusion_matrix))/152*100\n\n\n\n\n",
+    "created" : 1526814529883.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3547877502",
+    "id" : "8F889B22",
+    "lastKnownWriteTime" : 1483181928,
+    "last_content_update" : 1483181928,
+    "path" : "C:/happyarena/learning series/Regression Analysis/AllUp.r",
+    "project_path" : "AllUp.r",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

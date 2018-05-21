@@ -1,0 +1,39 @@
+"0","library(flexdashboard)"
+"2","package ‘flexdashboard’ was built under R version 3.4.4"
+"0","library(Quandl)"
+"2","Loading required package: xts
+"
+"2","Loading required package: zoo
+"
+"2","
+Attaching package: ‘zoo’
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+"
+"0","library(plotly)"
+"2","package ‘plotly’ was built under R version 3.4.4"
+"2","Loading required package: ggplot2
+"
+"2","
+Attaching package: ‘plotly’
+
+"
+"2","The following object is masked from ‘package:ggplot2’:
+
+    last_plot
+
+"
+"2","The following object is masked from ‘package:stats’:
+
+    filter
+
+"
+"2","The following object is masked from ‘package:graphics’:
+
+    layout
+
+"

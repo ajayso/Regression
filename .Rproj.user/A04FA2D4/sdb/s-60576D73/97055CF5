@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "x <- 1:100\ny <- 1 + x^0.15 + rnorm(100, 0, 0.01)\nm <- nls(y ~ a + b * I(x^z), start = list(a = 1, b = 1, z = 1))",
+    "created" : 1526834048720.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "897230578",
+    "id" : "97055CF5",
+    "lastKnownWriteTime" : 3419473789575321445,
+    "last_content_update" : 1526834050754,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

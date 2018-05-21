@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1526630168676.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "94291D8F",
+    "lastKnownWriteTime" : 1526630188,
+    "last_content_update" : 1526630188215,
+    "path" : "C:/happyarena/learning series/Regression Analysis/LinearRegression.R",
+    "project_path" : "LinearRegression.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
